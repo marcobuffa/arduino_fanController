@@ -10,7 +10,7 @@ Based on [Adafruit's DHT library](https://github.com/Khuuxuanngoc/DHT-sensor-lib
 
 - [x] Get requirement
 - [x] Find a good idea
-- [-] Find all hardware stuff
+- [ ] Find all hardware stuff
 - [ ] Write code
 - [ ] Debug
 - [ ] Install in a real environment
