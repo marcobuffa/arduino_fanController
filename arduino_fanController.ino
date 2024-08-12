@@ -1,12 +1,9 @@
 #include "hardware.h"
 #include "software.h"
+#include "helpers.h"
 
 static unsigned int currentTime = 0;
 static unsigned int time;
-
-float dewPoint(float h, float t) {
-    return (t - (14.55 + 0.114 * t) * (1 - (0.01 * h)) - pow(((2.5 + 0.007 * t) * (1 - (0.01 * h))),3) - (15.9 + 0.117 * t) * pow((1 - (0.01 * h)), 14));
-}
 
 DHT dht(DHTPIN, DHTTYPE); //sensor
 
@@ -24,7 +21,7 @@ void loop() {
   float h, t, dp;
 
   time = millis();
-  if ((time - currentTime) >= 3000){
+  if ((time - currentTime) >= BASICINTERVAL){
 
     //save time
     currentTime = time;
