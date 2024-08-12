@@ -1,14 +1,18 @@
 #define FAN 2
+#define BAUDRATE 115200
 
 void setup() {
-  // put your setup code here, to run once:
   pinMode(FAN, OUTPUT);
+  Serial.begin(BAUDRATE);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   digitalWrite(FAN, HIGH);
+  Serial.print(millis());
+  Serial.println(" ON");
   delay(3000);
   digitalWrite(FAN, LOW);
+  Serial.print(millis());
+  Serial.println(" OFF");
   delay(3000);
 }
