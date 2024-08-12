@@ -1,7 +1,7 @@
 # arduino_fanController
 ## A simple fan controller based on Arduino UNO
 
-![An industrial fan](docs/fan.jpg)
+![An industrial fan](docs/fan.png)
 
 Based on [Adafruit DHT sensor library](https://github.com/adafruit/DHT-sensor-library)
 
