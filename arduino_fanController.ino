@@ -1,10 +1,5 @@
-//Using https://github.com/adafruit/DHT-sensor-library
-#include "DHT.h"
-
-#define FAN 2
-#define DHTPIN 4
-#define DHTTYPE DHT11
-#define BAUDRATE 115200
+#include "hardware.h"
+#include "software.h"
 
 static unsigned int currentTime = 0;
 static unsigned int time;
@@ -17,7 +12,10 @@ DHT dht(DHTPIN, DHTTYPE); //sensor
 
 void setup() {
   pinMode(FAN, OUTPUT); //initialize fan control pin
+
+#ifdef DEBUG
   Serial.begin(BAUDRATE); //initialize serial port
+#endif
 
   dht.begin(); //start sensor library
 }
@@ -27,28 +25,33 @@ void loop() {
 
   time = millis();
   if ((time - currentTime) >= 3000){
-    currentTime = time;
 
-    Serial.print(time);
+    //save time
+    currentTime = time;
 
     //read sensor
     h = dht.readHumidity();
     t = dht.readTemperature();
+
+    //calculate dew point
     dp = dewPoint(h, t);
 
+    //set fan
+    if ((t-dp) <= DEWDELTA) {
+      digitalWrite(FAN, HIGH);
+    } else {
+      digitalWrite(FAN, LOW);
+    }
+
+#ifdef DEBUG
+    Serial.print(time);
     Serial.print(" | RH%: ");
     Serial.print(h);
     Serial.print(" | T°C: ");
     Serial.print(t);
     Serial.print(" | DP°C: ");
     Serial.print(dp);
-
-    if (digitalRead(FAN) == HIGH){
-      digitalWrite(FAN, LOW);
-      Serial.println(" | OFF");
-    } else {
-      digitalWrite(FAN, HIGH);
-      Serial.println(" | ON");
-    }
+    (digitalRead(FAN) == HIGH) ? Serial.println(" | ON") : Serial.println(" | OFF");
+#endif
   }
 }
